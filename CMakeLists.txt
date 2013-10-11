@@ -1,7 +1,7 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8.3)
 SET(PROJECT_NAME Sophus)
-
 PROJECT(${PROJECT_NAME})
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+find_package(catkin REQUIRED)
 
 SET (CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -21,8 +21,8 @@ ENDIF()
 
 ################################################################################
 # Add local path for finding packages, set the local version first
-set( CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" )
-list( APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules" )
+SET(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+#list( APPEND CMAKE_MODULE_PATH "${CMAKE_ROOT}/Modules" )
 
 ################################################################################
 # Create variables used for exporting in SophusConfig.cmake
@@ -30,10 +30,16 @@ set( Sophus_LIBRARIES "" )
 set( Sophus_INCLUDE_DIR ${PROJECT_SOURCE_DIR} )
 
 ################################################################################
+FIND_PACKAGE( Eigen REQUIRED )
 
-find_package( Eigen3 REQUIRED )
-INCLUDE_DIRECTORIES( ${EIGEN3_INCLUDE_DIR} )
-SET( Sophus_INCLUDE_DIR ${Sophus_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} )
+find_package( Eigen REQUIRED )
+
+catkin_package(
+    INCLUDE_DIRS ${Sophus_INCLUDE_DIR} ${CURRENT_SOURCE_DIR}
+    DEPENDS Eigen
+    )
+
+INCLUDE_DIRECTORIES( ${Sophus_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR})
 
 SET (SOURCE_DIR "sophus")
 
@@ -74,9 +80,9 @@ ADD_TEST(test_sim3 test_sim3)
 
 ################################################################################
 # Create the SophusConfig.cmake file for other cmake projects.
-CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/SophusConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/SophusConfig.cmake @ONLY IMMEDIATE )
-export( PACKAGE Sophus )
+# CONFIGURE_FILE( ${CMAKE_CURRENT_SOURCE_DIR}/SophusConfig.cmake.in
+#    ${CMAKE_CURRENT_BINARY_DIR}/SophusConfig.cmake @ONLY IMMEDIATE )
 
-INSTALL(DIRECTORY sophus DESTINATION ${CMAKE_INSTALL_PREFIX}/include
+INSTALL(DIRECTORY sophus DESTINATION ${CATKIN_PACKAGE_INCLUDE_DESTINATION}
         FILES_MATCHING PATTERN "*.hpp" )
+

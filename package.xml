@@ -1,0 +1,12 @@
+<package>
+    <name>Sophus</name>
+    <version>0.1.0</version>
+    <description>
+        C++ implementation of Lie Groups using Eigen.
+    </description>
+    <maintainer email="contradict@gmail.com">contradict</maintainer>
+    <license>MIT</license>
+
+    <buildtool_depend>catkin</buildtool_depend>
+
+</package>

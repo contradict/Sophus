@@ -39,7 +39,7 @@ catkin_package(
     DEPENDS Eigen
     )
 
-INCLUDE_DIRECTORIES( ${Sophus_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR})
+INCLUDE_DIRECTORIES( ${Sophus_INCLUDE_DIR} ${Eigen_INCLUDE_DIRS})
 
 SET (SOURCE_DIR "sophus")
 
